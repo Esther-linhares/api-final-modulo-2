@@ -2,26 +2,38 @@ package br.com.apiNotes.apinotes.models;
 
 import br.com.apiNotes.apinotes.dtos.AddTask;
 import br.com.apiNotes.apinotes.dtos.UpdateTask;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @Setter
+@Table(name = "task")
 public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String title;
     private String description;
     private Boolean archive;
+    private String useremail;
 
-    public Task(AddTask newTask) {
-        id = UUID.randomUUID();
-        title = newTask.title();
-        description = newTask.description();
-        archive = false;
+
+    public Task(AddTask newTask, String useremail) {
+        this.title = newTask.title();
+        this.description = newTask.description();
+        this.archive = false;
+        this.useremail = newTask.useremail();
     }
 
     public void UpdateTask(UpdateTask taskUpdated) {
@@ -32,5 +44,6 @@ public class Task {
                 description = taskUpdated.description();
             }
     }
+
 }
 
