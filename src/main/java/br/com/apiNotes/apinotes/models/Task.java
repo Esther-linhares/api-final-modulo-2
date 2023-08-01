@@ -2,10 +2,7 @@ package br.com.apiNotes.apinotes.models;
 
 import br.com.apiNotes.apinotes.dtos.AddTask;
 import br.com.apiNotes.apinotes.dtos.UpdateTask;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Setter
+@Entity
 @Table(name = "task")
 public class Task {
 

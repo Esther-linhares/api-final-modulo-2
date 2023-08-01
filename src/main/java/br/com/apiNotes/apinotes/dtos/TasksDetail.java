@@ -6,16 +6,16 @@ import lombok.Getter;
 import java.util.Collection;
 import java.util.UUID;
 
-    public record TasksDetail(UUID id, String title, String description, Boolean archived) {
+    public record TasksDetail(UUID id, String title, String description, Boolean archive) {
         public TasksDetail(Task task) {
             this(task.getId(), task.getTitle(), task.getDescription(), task.getArchive());
         }
 
-        public TasksDetail(UUID id, String title, String description, Boolean archived) {
+        public TasksDetail(UUID id, String title, String description, Boolean archive) {
             this.id = id;
             this.title = title;
             this.description = description;
-            this.archived = archived;
+            this.archive = archive;
         }
 
         public UUID id() {
@@ -30,7 +30,7 @@ import java.util.UUID;
             return this.description;
         }
 
-        public Boolean archived() {
-            return this.archived;
+        public Boolean archive() {
+            return this.archive;
         }
     }

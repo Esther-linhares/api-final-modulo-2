@@ -1,10 +1,8 @@
 package br.com.apiNotes.apinotes.controllers;
 
-import br.com.apiNotes.apinotes.dataBase.DataBase;
 import br.com.apiNotes.apinotes.dtos.CreateUser;
 import br.com.apiNotes.apinotes.dtos.ErrorData;
 import br.com.apiNotes.apinotes.dtos.UserDetail;
-import br.com.apiNotes.apinotes.models.Task;
 import br.com.apiNotes.apinotes.models.User;
 import br.com.apiNotes.apinotes.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
@@ -41,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{email}")
     public  ResponseEntity getUser(@PathVariable String email){
-        var user = DataBase.getUserByEmail(email);
+        var user = usersRepository.getByEmail(email);
 
         if(user == null){
             return ResponseEntity.badRequest().body(new ErrorData("User não localizado"));

@@ -1,6 +1,5 @@
 package br.com.apiNotes.apinotes.controllers;
 
-import br.com.apiNotes.apinotes.dataBase.DataBase;
 import br.com.apiNotes.apinotes.dtos.*;
 import br.com.apiNotes.apinotes.models.Task;
 import br.com.apiNotes.apinotes.models.User;
@@ -42,7 +41,7 @@ public class TaskController {
 
 
     @GetMapping("/{email}")
-    public ResponseEntity getTasks(@PathVariable String email, @RequestParam(required = false) String title, @RequestParam(required = false) boolean archived) {
+    public ResponseEntity getTasks(@PathVariable String email, @RequestParam(required = false) String title, @RequestParam(required = false) boolean archive) {
         User checkUser = this.usersRepostitory.getByEmail(email);
         List<Task> tasks = checkUser.getTasks();
         if (tasks == null) {
@@ -52,7 +51,7 @@ public class TaskController {
                 return t.getTitle().contains(title);
             }).toList();
             return ResponseEntity.ok().body(tasks);
-        } else if (archived) {
+        } else if (archive) {
             tasks = tasks.stream().filter((a) -> {
                 return a.getArchive().equals(true);
             }).toList();
@@ -67,6 +66,7 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable String email, @PathVariable UUID idTask) {
         User user = this.usersRepostitory.getByEmail(email);
         Optional<Task> task = this.taskRepository.findById(idTask);
+
         if (task == null) {
             return ResponseEntity.badRequest().body(new ErrorData("Recado não encontrado!"));
         } else {
@@ -89,12 +89,12 @@ public class TaskController {
     }
 
     @PutMapping("/{email}/{idTask}/archive")
-    public ResponseEntity archivedTask(@PathVariable String email, @PathVariable UUID idTask) {
+    public ResponseEntity archiveTask(@PathVariable String email, @PathVariable UUID idTask) {
         try {
             Optional<Task> findtask = this.taskRepository.findById(idTask);
             Task task = (Task)findtask.get();
-            Boolean archived = task.getArchive();
-            task.setArchive(!archived);
+            Boolean archive = task.getArchive();
+            task.setArchive(!archive);
             this.taskRepository.save(task);
             return ResponseEntity.ok().body(task.getArchive());
         } catch (Exception var6) {
